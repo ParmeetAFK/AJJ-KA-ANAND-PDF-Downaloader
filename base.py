@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from datetime import date
+import datetime
 
 def connection(url='http://www.google.com/', timeout=5):
 
@@ -23,19 +24,31 @@ def build_url():
 
     #------------------------------- Builds URL for todays Newspaper ---------------------------
 
-    u0 = "http://aajkaanand.epapers.in/index.php?edition=Ppage&date="
+    u0 = "aajkaanand.epapers.in/encyc/625/"
 
-    date_today = str(date.today())
+    dt = date.today()
 
-    u1 = date_today + "&page="
+    #date_today = str(datetime.date.strftime(dt, "%Y/%m/%d"))
 
-    u2 = u1 + '2'
+    u1 = '2020/04/12' + "/Ppage_"
 
-    url = u0 + u2
+    u2 = u1 + '1'
 
-def visit_site(url):
-    
+    u3 = '.pdf'
+
+    global url
+
+    url = u0 + u2 + u3
 
 
+def download_pdf():
 
+    # -------------------- Visits webpage and downloads the pdf file ----------------------------------
+
+    r = requests.get("http://aajkaanand.epapers.in/encyc/625/2020/04/12/Ppage_1.pdf?", allow_redirects=True)
+    open('2.pdf' ,'wb').write(r.content)
+
+
+connection()
 build_url()
+download_pdf()

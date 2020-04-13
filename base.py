@@ -1,8 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+from PyPDF2 import PdfFileMerger
 from datetime import date
 import datetime
+import os
 
 def connection(url='http://www.google.com/', timeout=5):
 
@@ -53,9 +55,22 @@ def download_pdf():
     open(str(page) + '.pdf' ,'wb').write(r.content)
 
 
+def merge_pdf():
 
+    # ------------------------ Merges all 16 pages of pdf -----------------------------------------
+    x = [a for a in os.listdir() if a.endswith(".pdf")]
+    merger = PdfFileMerger()
+
+    x.sort(key=lambda item: int(item.split('.')[0]))
+
+    for pdf in x:
+        merger.append(open(pdf,'rb'))
+
+    with open('result.pdf','wb') as fout:
+        merger.write(fout)
 
 connection()
 for page in range(1,17):
     build_url()
     download_pdf()
+merge_pdf()

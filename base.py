@@ -24,15 +24,17 @@ def build_url():
 
     #------------------------------- Builds URL for todays Newspaper ---------------------------
 
-    u0 = "aajkaanand.epapers.in/encyc/625/"
+    u0 = "http://aajkaanand.epapers.in/encyc/625/"
 
     dt = date.today()
 
-    #date_today = str(datetime.date.strftime(dt, "%Y/%m/%d"))
+    global date_today
 
-    u1 = '2020/04/12' + "/Ppage_"
+    date_today = str(datetime.date.strftime(dt, "%Y/%m/%d"))
 
-    u2 = u1 + '1'
+    u1 = date_today + "/Ppage_"
+
+    u2 = u1 + str(page)
 
     u3 = '.pdf'
 
@@ -40,15 +42,20 @@ def build_url():
 
     url = u0 + u2 + u3
 
+    print("Downloading page number --> " + str(page))
+
 
 def download_pdf():
 
     # -------------------- Visits webpage and downloads the pdf file ----------------------------------
 
-    r = requests.get("http://aajkaanand.epapers.in/encyc/625/2020/04/12/Ppage_1.pdf?", allow_redirects=True)
-    open('2.pdf' ,'wb').write(r.content)
+    r = requests.get(url , allow_redirects=True)
+    open(str(page) + '.pdf' ,'wb').write(r.content)
+
+
 
 
 connection()
-build_url()
-download_pdf()
+for page in range(1,17):
+    build_url()
+    download_pdf()

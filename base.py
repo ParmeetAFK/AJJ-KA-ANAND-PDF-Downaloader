@@ -4,6 +4,7 @@ from urllib.request import urlopen
 from PyPDF2 import PdfFileMerger
 from datetime import date
 import datetime
+import shutil
 import os
 
 def connection(url='http://www.google.com/', timeout=5):
@@ -58,6 +59,8 @@ def download_pdf():
 def merge_pdf():
 
     # ------------------------ Merges all 16 pages of pdf -----------------------------------------
+
+    username = os.getlogin()    # Fetch username
     x = [a for a in os.listdir() if a.endswith(".pdf")]
     merger = PdfFileMerger()
 
@@ -66,11 +69,26 @@ def merge_pdf():
     for pdf in x:
         merger.append(open(pdf,'rb'))
 
-    with open('result.pdf','wb') as fout:
+    with open(f'C:\\Users\\{username}\\Desktop\\result.pdf','wb') as fout:
         merger.write(fout)
+
+def files_opti():
+
+    #---------------------------------------- Deletes all unnesecary files ------------------------------ 
+
+    folder_path = "temp_files"
+    os.mkdir(folder_path)
+
+    y = [a for a in os.listdir() if a.endswith(".pdf")]
+
+    for ff in range(len(y)):
+    	shutil.move(y[ff], 'temp_files\\'+ y[ff] )
+
+    shutil.rmtree(folder_path)
 
 connection()
 for page in range(1,17):
     build_url()
     download_pdf()
 merge_pdf()
+files_opti()

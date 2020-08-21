@@ -72,23 +72,11 @@ def merge_pdf():
     with open(f'C:\\Users\\{username}\\Desktop\\result.pdf','wb') as fout:
         merger.write(fout)
 
-def files_opti():
-
-    #---------------------------------------- Deletes all unnesecary files ------------------------------ 
-
-    folder_path = "temp_files"
-    os.mkdir(folder_path)
-
-    y = [a for a in os.listdir() if a.endswith(".pdf")]
-
-    for ff in range(len(y)):
-    	shutil.move(y[ff], 'temp_files\\'+ y[ff] )
-
-    shutil.rmtree(folder_path)
 
 connection()
 for page in range(1,17):
     build_url()
     download_pdf()
 merge_pdf()
-files_opti()
+print("Your Newspaper is saved on your Desktop")
+
